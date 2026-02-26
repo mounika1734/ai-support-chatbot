@@ -1,4 +1,4 @@
-Innoira – AI-Powered Support Assistant
+AI-Powered Support Assistant
 📌 Project Overview
 
 This project is a full-stack AI-powered Support Assistant developed as part of the Innoira technical assignment.
