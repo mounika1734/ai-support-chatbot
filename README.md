@@ -1,68 +1,68 @@
 AI-Powered Support Assistant
-📌 Project Overview
+📌 Overview
 
-This project is a full-stack AI-powered Support Assistant developed as part of the Innoira technical assignment.
+This is a full-stack AI-powered Support Assistant built using React, Node.js, and SQLite.
 
-The application enables users to chat with an AI assistant through a React-based user interface. The assistant provides responses strictly based on predefined product documentation, maintains session-wise conversational context, and stores all conversations persistently using SQLite.
-
-If a user asks a question outside the provided documentation, the assistant responds:
+The application allows users to interact with an AI assistant through a simple chat interface. The assistant provides responses strictly based on predefined product documentation. If a question is asked outside the available documentation, the assistant clearly responds:
 
 "Sorry, I don’t have information about that."
 
-🧠 Tech Stack Used
+The system maintains session-based conversation history and stores all chat data persistently using SQLite.
+
+🧠 Tech Stack
 
 Frontend: React.js
 
-Backend: Node.js (Express)
+Backend: Node.js with Express
 
 Database: SQLite
 
-LLM Integration: Document-restricted LLM (OpenAI / Claude / Gemini – pluggable)
+AI Integration: Document-restricted LLM (provider configurable via environment variables)
 
-📂 Project Structure
-innoira-AI-Support/
-│
-├── backend/
-│   ├── index.js              # Express server & API routes
-│   ├── db.sqlite             # SQLite database
-│   ├── docs.json             # Product documentation
-│   ├── package.json
-│
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── Chat.js           # Chat UI & session handling
-│   │   ├── App.js
-│   │   ├── index.js
-│   │   └── App.css
-│   ├── package.json
-│
-├── README.md                 # Assignment documentation
-🚀 Features Implemented
+🚀 Key Features
 
-React-based chat interface
+Clean and responsive React chat interface
 
 Session handling using sessionId stored in localStorage
 
-Persistent conversation storage using SQLite
+Persistent storage of conversations using SQLite
 
-Conversation history restored on page refresh
+Conversation history restored after page refresh
 
-Document-based AI responses (no hallucination)
+AI responses strictly limited to provided documentation
 
 Maintains last 5 user–assistant message pairs as context
 
 “New Chat” functionality
 
-Backend error handling and validation
+Basic backend validation and error handling
 
-🗂️ Database Schema
-sessions Table
+📂 Project Structure
+ai-support-assistant/
+│
+├── backend/
+│   ├── index.js
+│   ├── db.sqlite
+│   ├── docs.json
+│   └── package.json
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── Chat.js
+│   │   ├── App.js
+│   │   ├── index.js
+│   │   └── App.css
+│   └── package.json
+│
+└── README.md
+🗄️ Database Design
+sessions table
 Column	Type
 id	TEXT
 created_at	DATETIME
 updated_at	DATETIME
-messages Table
+messages table
 Column	Type
 id	INTEGER (Primary Key)
 session_id	TEXT
@@ -70,12 +70,12 @@ role	TEXT (user / assistant)
 content	TEXT
 created_at	DATETIME
 
-All conversations are stored persistently in SQLite.
+Each session stores its messages separately, allowing session-wise context management.
 
-🔌 Backend API Endpoints
+🔌 API Endpoints
 POST /api/chat
 
-Handles user messages and returns AI responses.
+Handles incoming user messages and returns the AI response.
 
 Request
 
@@ -92,15 +92,17 @@ Response
 }
 GET /api/conversations/:sessionId
 
-Returns all messages for a session in chronological order.
+Returns all messages for a specific session in chronological order.
 
 GET /api/sessions
 
-Returns all session IDs with their last updated timestamps.
+Returns all session IDs along with their last updated timestamps.
 
 📄 Document-Based Answering
 
-The assistant uses only the content available in docs.json:
+The assistant uses only the content available in docs.json.
+
+Example:
 
 [
   {
@@ -113,9 +115,11 @@ The assistant uses only the content available in docs.json:
   }
 ]
 
-If a question is outside this documentation, the assistant responds:
+If a query is outside this documentation, the assistant responds:
 
 "Sorry, I don’t have information about that."
+
+This ensures controlled and reliable responses.
 
 ⚙️ Setup Instructions
 Backend Setup
@@ -124,37 +128,30 @@ npm install
 node index.js
 
 Backend runs at:
-http://localhost:5000
 
+http://localhost:5000
 Frontend Setup
 cd frontend
 npm install
 npm start
 
 Frontend runs at:
+
 http://localhost:3000
-
-✅ Assignment Requirements Met
-
-✔ React frontend with chat UI
-✔ Node.js backend with REST APIs
-✔ SQLite database for persistence
-✔ Session-wise context management
-✔ Document-only AI responses
-✔ Conversation history restoration
-
 🧪 Sample Test Cases
 User Input	Expected Response
 Reset Password	Users can reset password from Settings > Security.
 Refund Policy	Refunds are allowed within 7 days of purchase.
 CEO name?	Sorry, I don’t have information about that.
-📝 Assumptions
+📝 Design Decisions
 
-One session per browser using localStorage
+One session per browser (managed via localStorage)
 
-SQLite is sufficient for assignment-scale usage
+SQLite chosen for lightweight and simple persistence
 
-LLM provider can be replaced without major code changes
+LLM provider kept configurable to allow flexibility
+
+Limited context to last 5 message pairs to control token usage
 
 📸 Screenshots
 
@@ -167,11 +164,11 @@ LLM provider can be replaced without major code changes
 ### New Chat Session
 ![New Chat](screenshots/Screenshot%20(113).png)
 
+
 👤 Author
 
-Name: Killari Mounika
-Assignment: Innoira – AI-Powered Support Assistant
+Killari Mounika
 
-🏁 Final Note
+📌 Final Note
 
-This project fulfills all mandatory requirements of the Innoira assignment and demonstrates full-stack development skills, persistent data handling, and controlled AI integration.
+This project demonstrates full-stack development skills, REST API design, session-based context management, and controlled AI integration using a document-restricted approach.
